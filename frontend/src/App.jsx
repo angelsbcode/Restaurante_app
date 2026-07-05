@@ -9,12 +9,11 @@ import AdminMenu from './views/admin/AdminMenu';
 import AdminPlatillos from './views/admin/AdminPlatillos';
 import AdminBebidas from './views/admin/AdminBebidas';
 import AdminCuartos from './views/admin/AdminCuartos';
-/* 
-import ClientMenu from './views/client/ClientMenu';
-import ClientRooms from './views/client/ClientRooms';
-import ClientDishes from './views/client/ClientDishes';
-import ClientPerfil from './views/client/ClientPerfil';
-*/
+
+import ClientMenu from './pages/ClienteMenu';
+import ClientRooms from './pages/ClienteHabitaciones';
+import ClientDishes from './pages/ClienteRestaurante';
+
 
 export default function App() {
   return (
@@ -34,12 +33,11 @@ export default function App() {
 
           {/* 3. RUTAS PROTEGIDAS PARA EL CLIENTE */}
           <Route element={<ProtectedRoute allowedRoles={['client']} />}>
-            {/* 
+            
             <Route path="/client" element={<ClientMenu />} />
-            <Route path="/client/habitaciones" element={<ClientRooms />} />
-            <Route path="/client/ordenar" element={<ClientDishes />} />
-            <Route path="/client/perfil" element={<ClientPerfil />} />
-            */}
+            <Route path="/habitaciones" element={<ClientRooms />} />
+            <Route path="/restaurante" element={<ClientDishes />} />
+            
           </Route>
 
           {/* Redirección por defecto si la ruta no existe */}

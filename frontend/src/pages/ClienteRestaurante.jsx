@@ -49,7 +49,7 @@ const ClienteRestaurante = () => {
         <div className="contenedor_reservaciones">
             <header className="header_top">
                 <h1>RESTAURANTE</h1>
-                <button className="btn_cerrar" onClick={() => navigate('/menu')}>X</button>
+                <button className="btn_cerrar" onClick={() => navigate('/client')}>X</button>
             </header>
 
             <main className="contenido_principal">
