@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import '../../styles/Index.css';
+import '../../styles/Login.css';
 
 export default function Login() {
   const { login } = useAuth();
@@ -21,6 +23,8 @@ export default function Login() {
   // Manejador del Inicio de Sesión
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    console.log("¡Formulario atrapado sin recargar!");
+    console.log("Email ingresado:", email);
 
     // NOTA: Por ahora simulamos la respuesta del backend (Node.js + MySQL)
     // Cuando conectes tu API, aquí harás el fetch() correspondiente.
@@ -57,162 +61,156 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-3 bg-[#e2e2e2] relative">
-      
-      {/* COLUMNA IZQUIERDA: Galería Habitaciones (Figma Sign In) */}
-      <div className="hidden md:flex flex-col justify-between p-4 space-y-4 bg-white">
-        <div className="flex-1 overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500" alt="Room 1" className="w-full h-full object-cover" />
-        </div>
-        <div className="flex-1 overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Room 2" className="w-full h-full object-cover" />
-        </div>
-        <div className="flex-1 overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=500" alt="Room 3" className="w-full h-full object-cover" />
-        </div>
-      </div>
-
-      {/* COLUMNA CENTRAL: Formulario Principal de Login */}
-      <div className="flex flex-col items-center justify-center p-6 bg-[#e2e2e2]">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-3 mb-2">
-            <span className="text-7xl font-serif font-black tracking-tighter text-black">H</span>
-            <span className="text-5xl text-black">🍴</span>
+    <div className="login-container">
+      <div className="login-table">
+        
+        {/* COLUMNA IZQUIERDA: Galería Habitaciones */}
+        <div className="login-column side-column">
+          <div className="gallery-wrapper">
+            <div className="gallery-item">
+              <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500" alt="Room 1" />
+            </div>
+            <div className="gallery-item">
+              <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Room 2" />
+            </div>
+            <div className="gallery-item">
+              <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=500" alt="Room 3" />
+            </div>
           </div>
           <h1 className="text-2xl font-light text-neutral-800 tracking-wide font-sans">
             Hotel Management System
           </h1>
         </div>
 
-        {/* Tarjeta Blanca de Credenciales */}
-        <div className="w-full max-w-sm bg-white rounded-lg shadow-md p-8">
-          <form onSubmit={handleLoginSubmit} className="space-y-5">
+        {/* COLUMNA CENTRAL: Formulario Principal de Login */}
+        <div className="login-column center-column">
+          <div className="login-header">
             <div>
-              <label className="block text-sm font-medium text-neutral-600 mb-1">Email</label>
-              <input
-                type="email"
-                placeholder="Value"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-1 focus:ring-neutral-400 placeholder-neutral-300"
-                required
-              />
+              <span className="logo-brand">H</span>
+              <span className="logo-icon">🍴</span>
             </div>
+            <h1 className="system-title">Hotel Management System</h1>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-neutral-600 mb-1">Password</label>
-              <input
-                type="password"
-                placeholder="Value"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-1 focus:ring-neutral-400 placeholder-neutral-300"
-                required
-              />
+          {/* Tarjeta Blanca de Credenciales */}
+          <div className="login-card">
+            <form onSubmit={handleLoginSubmit}>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="Value"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  placeholder="Value"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <button type="submit" className="btn-submit">
+                Sign In
+              </button>
+            </form>
+
+            <div className="card-footer">
+              <a href="#forgot" className="footer-link-left">
+                Forgot password?
+              </a>
+              <button 
+                onClick={() => setIsRegisterOpen(true)} 
+                className="footer-link-right"
+              >
+                Sign in
+              </button>
             </div>
-
-            <button
-              type="submit"
-              className="w-full bg-[#2e2d2d] text-white py-2.5 rounded-md font-medium hover:bg-neutral-800 transition-colors"
-            >
-              Sign In
-            </button>
-          </form>
-
-          <div className="flex justify-between items-center mt-6 text-sm">
-            <a href="#forgot" className="text-neutral-600 hover:underline">
-              Forgot password?
-            </a>
-            {/* Botón para abrir la vista modal de registro de Figma */}
-            <button 
-              onClick={() => setIsRegisterOpen(true)} 
-              className="text-indigo-600 font-medium hover:underline"
-            >
-              Sign in
-            </button>
           </div>
         </div>
+
+        {/* COLUMNA DERECHA: Galería Gastronómica */}
+        <div className="login-column side-column">
+          <div className="gallery-wrapper">
+            <div className="gallery-item">
+              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500" alt="Food 1" />
+            </div>
+            <div className="gallery-item">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" alt="Food 2" />
+            </div>
+            <div className="gallery-item">
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500" alt="Coffee" />
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      {/* COLUMNA DERECHA: Galería Gastronómica */}
-      <div className="hidden md:flex flex-col justify-between p-4 space-y-4 bg-white">
-        <div className="flex-1 overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500" alt="Food 1" className="w-full h-full object-cover" />
-        </div>
-        <div className="flex-1 overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" alt="Food 2" className="w-full h-full object-cover" />
-        </div>
-        <div className="flex-1 overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500" alt="Coffee" className="w-full h-full object-cover" />
-        </div>
-      </div>
-
-      {/* --- MODAL FLOTANTE DE REGISTRO (Figma Sign in con X) --- */}
+      {/* --- MODAL FLOTANTE DE REGISTRO --- */}
       {isRegisterOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="w-full max-w-sm bg-white rounded-lg shadow-xl p-8 relative animate-fade-in">
+        <div className="modal-overlay">
+          <div className="modal-content animate-fade-in">
             
-            {/* Botón Cerrar (X) */}
             <button 
               onClick={() => setIsRegisterOpen(false)}
-              className="absolute top-4 right-4 text-xl text-neutral-500 hover:text-black focus:outline-none"
+              className="btn-close-modal"
             >
               ✕
             </button>
 
-            <form onSubmit={handleRegisterSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-neutral-600 mb-1">Name</label>
+            <form onSubmit={handleRegisterSubmit}>
+              <div className="form-group">
+                <label>Name</label>
                 <input
                   type="text"
                   placeholder="Value"
                   value={regName}
                   onChange={(e) => setRegName(e.target.value)}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-1 focus:ring-neutral-400 placeholder-neutral-300"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-neutral-600 mb-1">Surname</label>
+              <div className="form-group">
+                <label>Surname</label>
                 <input
                   type="text"
                   placeholder="Value"
                   value={regSurname}
                   onChange={(e) => setRegSurname(e.target.value)}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-1 focus:ring-neutral-400 placeholder-neutral-300"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-neutral-600 mb-1">Email</label>
+              <div className="form-group">
+                <label>Email</label>
                 <input
                   type="email"
                   placeholder="Value"
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-1 focus:ring-neutral-400 placeholder-neutral-300"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-neutral-600 mb-1">Dirección</label>
+              <div className="form-group">
+                <label>Dirección</label>
                 <textarea
                   placeholder="Value"
                   value={regDireccion}
                   onChange={(e) => setRegDireccion(e.target.value)}
                   rows="3"
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-1 focus:ring-neutral-400 placeholder-neutral-300 resize-none"
                   required
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-[#2e2d2d] text-white py-2.5 rounded-md font-medium hover:bg-neutral-800 transition-colors mt-2"
-              >
+              <button type="submit" className="btn-submit">
                 Submit
               </button>
             </form>
