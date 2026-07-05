@@ -5,14 +5,11 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 // Importaciones de Vistas
 import Login from './views/auth/Login';
-
-/* 
-// Descomenta esto conforme vayas creando los archivos:
 import AdminMenu from './views/admin/AdminMenu';
 import AdminPlatillos from './views/admin/AdminPlatillos';
 import AdminBebidas from './views/admin/AdminBebidas';
 import AdminCuartos from './views/admin/AdminCuartos';
-
+/* 
 import ClientMenu from './views/client/ClientMenu';
 import ClientRooms from './views/client/ClientRooms';
 import ClientDishes from './views/client/ClientDishes';
@@ -29,12 +26,10 @@ export default function App() {
 
           {/* 2. RUTAS PROTEGIDAS PARA EL ADMINISTRADOR */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-            {/* 
             <Route path="/admin" element={<AdminMenu />} />
             <Route path="/admin/platillos" element={<AdminPlatillos />} />
             <Route path="/admin/bebidas" element={<AdminBebidas />} />
             <Route path="/admin/cuartos" element={<AdminCuartos />} /> 
-            */}
           </Route>
 
           {/* 3. RUTAS PROTEGIDAS PARA EL CLIENTE */}
