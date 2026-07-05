@@ -1,0 +1,52 @@
+/* src/views/admin/AdminCuartos.css */
+
+.room-card-wrapper {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Quitamos el padding interno excedente de la tarjeta reutilizada */
+.room-card-wrapper .inventory-card {
+  box-shadow: none;
+  padding-bottom: 0;
+}
+
+/* El contenedor del contador (- 0 +) de Figma */
+.room-quantity-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+  background-color: #f1f0f5;
+  width: 70%;
+  margin: 8px auto 0;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.room-quantity-control button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #555;
+  padding: 0 8px;
+  transition: color 0.2s;
+}
+
+.room-quantity-control button:hover {
+  color: #000;
+}
+
+.room-quantity-control span {
+  font-size: 15px;
+  font-weight: 600;
+  min-width: 16px;
+  text-align: center;
+}
