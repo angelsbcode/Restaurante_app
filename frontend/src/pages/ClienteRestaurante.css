@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.restaurante_layout {
+    display: flex;
+    gap: 30px;
+    height: 100vh;
+    padding: 20px 40px;
+    background-color: #f4f6f8;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    color: #333;
+}
+
+.header_top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header_top h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.btn_cerrar {
+    background: #e0e0e0;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn_cerrar:hover {
+    background: #ccc;
+}
+
+.main_content {
+    flex: 2.5;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+h1 { font-size: 24px; font-weight: 700; margin: 0 0 10px 0; }
+
+/* --- SECCIÓN CARRUSEL (Especialidades) --- */
+.carrusel_especialidades {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 20px;
+    padding: 10px 5px 20px 5px;
+    width: 100%;
+}
+
+.tarjeta_especialidad {
+    min-width: 260px;
+    max-width: 260px;
+    height: 290px;
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    min-height: 280px; 
+    justify-content: space-between;
+}
+
+/* --- SECCIÓN MENÚ (Grid) --- */
+.header_menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_menu h3 {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.tabs_categorias { 
+    display: flex; 
+    gap: 10px; }
+
+.tab_btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: color 0.2s, border-bottom 0.2s;
+}
+
+.tab_activa {
+    color: #0d4d4d;
+    border-bottom: 2px solid #0d4d4d;
+}
+
+.grid_platillos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.descrip {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+/* --- TARJETAS (Reutilización de estilo) --- */
+.tarjeta_platillo {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+}
+
+.img_placeholder {
+    width: 100%;
+    height: 140px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.tarjeta_controles {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 12px;
+}
+
+.precio {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0d4d4d;
+}
+
+/* --- CONTADOR --- */
+.contador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8f9fa;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.contador button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0d4d4d;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.panel_ticket {
+    flex: 1;
+    min-width: 320px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+}
+
+.panel_ticket h2 {
+    background: #1a1a1a;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.panel_ticket h4 {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.datos_cliente { padding: 15px 20px; border-bottom: 1px dashed #e0e0e0; }
+
+.detalles_entrega { padding: 15px 20px; border-bottom: 1px dashed #e0e0e0; }
+
+.textarea_notas {
+    width: 100%;
+    margin: 10px 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: none;
+}
+
+.resumen_carrito { flex: 1; overflow-y: auto; padding: 15px 20px; }
+
+.item_carrito {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.total_seccion {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 2px solid #1a1a1a;
+    background: #fafafa;
+}
+
+.acciones_finales { padding: 15px 20px 20px; display: flex; flex-direction: column; }
+
+.btn_primario {
+    width: 100%;
+    padding: 14px;
+    background: #0d4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.img_placeholder {
+    width: 100%;
+    height: 140px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}

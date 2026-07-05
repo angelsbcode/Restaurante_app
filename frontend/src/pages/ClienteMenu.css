@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+.cliente_menu_grid_layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 40px;
+    padding: 60px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #e0e0e0;
+    font-family: 'Playfair Display', serif;
+}
+
+.cliente_logo_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent; 
+    box-shadow: none;       
+}
+
+.cliente_menu_card {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cliente_menu_card_habitaciones {
+    background: #0d4d4d; 
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cliente_menu_img {
+    width: 90%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.cliente_menu_logo_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    box-shadow: 6px 6px 15px rgba(0,0,0,0.15);
+}
+
+.cliente_menu_card, .cliente_menu_card_habitaciones {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.cliente_menu_card:hover {
+    transform: scale(1.02);
+    box-shadow: 8px 8px 20px rgba(0,0,0,0.25);
+    background-color: #fafafa;
+}
+
+.cliente_menu_card_habitaciones:hover {
+    transform: scale(1.02);
+    box-shadow: 8px 8px 20px rgba(0,0,0,0.3);
+    background-color: #0d5c5c; /* Un tono un poco más claro al hacer hover */
+}

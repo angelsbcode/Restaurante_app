@@ -1,0 +1,419 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- LAYOUT PRINCIPAL --- */
+.contenedor_reservaciones {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px 40px;
+    background-color: #f4f6f8;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    color: #333;
+}
+
+.header_top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header_top h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.btn_cerrar {
+    background: #e0e0e0;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn_cerrar:hover {
+    background: #ccc;
+}
+
+.contenido_principal {
+    display: flex;
+    gap: 30px;
+    height: calc(100vh - 90px);
+}
+
+/* --- SECCIÓN IZQUIERDA (GRILLAS) --- */
+.seccion_seleccion {
+    flex: 2.5;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+.header_habitaciones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_habitaciones h3 {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.tabs_habitaciones {
+    display: flex;
+    gap: 10px;
+}
+
+.tab_btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: color 0.2s, border-bottom 0.2s;
+}
+
+.tab_activa {
+    color: #0d4d4d;
+    border-bottom: 2px solid #0d4d4d;
+}
+
+.grid_tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* --- TARJETAS SÓLIDAS --- */
+.tarjeta {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.img_placeholder {
+    width: 100%;
+    height: 140px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.tarjeta h4 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+}
+
+.desc, .max_pax {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.tarjeta_controles {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 12px;
+}
+
+.precio {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0d4d4d;
+    display: flex;
+    flex-direction: column;
+}
+
+.precio sub {
+    font-size: 11px;
+    font-weight: 400;
+    color: #888;
+    bottom: 0;
+}
+
+.contador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8f9fa;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.contador button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0d4d4d;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.contador button:hover {
+    background: #e2e6ea;
+}
+
+.contador span {
+    font-weight: 600;
+    font-size: 15px;
+    min-width: 12px;
+    text-align: center;
+}
+
+/* --- PANEL DERECHO (TICKET) --- */
+.panel_ticket {
+    flex: 1;
+    min-width: 320px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.panel_ticket h2 {
+    background: #1a1a1a;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.fecha_emision, .hotel_nombre {
+    margin: 0;
+    padding: 8px 20px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.datos_huesped, .detalles_estancia {
+    padding: 15px 20px;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.panel_ticket h4 {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.datos_huesped label, .datos_huesped p {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    margin: 5px 0;
+}
+
+.detalle_fechas {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.detalle_fechas div {
+    flex: 1;
+}
+
+.etiqueta {
+    font-size: 12px;
+    color: #888;
+    margin: 0 0 4px 0;
+}
+
+.detalle_fechas input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 4px;
+    box-sizing: border-box;
+}
+
+.detalle_fechas p {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.duracion {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.resumen_carrito {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px;
+}
+
+.item_carrito {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.item_carrito span:nth-child(1) { /* Ícono de basura */
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.item_carrito span:nth-child(2) { /* Nombre */
+    flex: 1;
+}
+
+.item_carrito span:nth-child(3) { /* Precio */
+    font-weight: 700;
+}
+
+.total_seccion {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid #1a1a1a;
+    background: #fafafa;
+}
+
+.total_seccion h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.acciones_finales {
+    padding: 15px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn_secundario, .btn_primario {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.btn_secundario {
+    background: #ffffff;
+    border: 2px solid #0d4d4d;
+    color: #0d4d4d;
+}
+
+.btn_secundario:hover {
+    background: #f0f4f4;
+}
+
+.btn_primario {
+    background: #0d4d4d;
+    border: 2px solid #0d4d4d;
+    color: #ffffff;
+}
+
+.btn_primario:hover {
+    background: #093838;
+    border-color: #093838;
+}
+
+/* --- CARRUSEL DE CAMAS (Horizontal) --- */
+.carrusel_camas {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden; 
+    gap: 20px;
+    width: 100%;
+}
+
+.tarjeta_cama_carrusel {
+    min-width: 260px;
+    max-width: 260px;
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0; 
+    min-height: 280px; 
+}
+
+.tarjeta_controles {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+
+.detalle_fechas input[type="time"] {
+    width: 100%;
+    margin-top: 5px;
+    padding: 6px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+
+.grid_tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    overflow: visible; /* Asegura el scroll vertical */
+}
