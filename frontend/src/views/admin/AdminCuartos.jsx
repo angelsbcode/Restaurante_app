@@ -1,33 +1,55 @@
 // src/views/admin/AdminCuartos.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import InventoryCard from '../../components/InventoryCard';
 import '../../styles/AdminPlatillos.css'; 
 import '../../styles/AdminCuartos.css'; 
+import { useAuth } from '../../context/AuthContext';
 
 export default function AdminCuartos() {
-  const [cuartos, setCuartos] = useState([
-    { idCuarto: 1, tipoCuarto: 'Premium', tipoCama: 'Matrimonial', precio: 1150, cantidad: 2, imagen: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=300' },
-    { idCuarto: 2, tipoCuarto: 'Premium', tipoCama: 'King Size', precio: 1350, cantidad: 1, imagen: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=300' },
-    { idCuarto: 3, tipoCuarto: 'Premium', tipoCama: 'Doble Matrimonial', precio: 2200, cantidad: 4, imagen: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=300' }
-  ]);
-
+  const { user } = useAuth();
+  const [cuartos, setCuartos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
-  // Campos del Formulario (Mapeados correctamente)
+  // Campos del Formulario
   const [formTipoCuarto, setFormTipoCuarto] = useState('');
   const [formTipoCama, setFormTipoCama] = useState('');
   const [formPrecio, setFormPrecio] = useState('');
+  const [formImagen, setFormImagen] = useState(null); // Cambiado a null para el archivo binario
 
-  // CORREGIDO: Se limpian los estados que sí existen en tu componente
+  // Cambiado dinámicamente al puerto asignado
+  const API_URL = 'http://localhost:3000/api/habitaciones'; 
+
+  // --- 1. Cargar Habitaciones desde MySQL ---
+  useEffect(() => {
+    const cargarCuartos = async () => {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        setCuartos(data);
+      } catch (error) {
+        console.error("Error cargando habitaciones de MySQL:", error);
+      }
+    };
+    cargarCuartos();
+  }, []);
+
   const openCreateModal = () => {
     setIsEditMode(false); 
     setFormTipoCama('');
     setFormTipoCuarto('');
     setFormPrecio('');
+    setFormImagen(null); // Limpio para archivo binario
     setIsModalOpen(true);
+  };
+
+  // Capturar archivo físico de la PC
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormImagen(e.target.files[0]);
+    }
   };
 
   const openEditModal = (item) => {
@@ -36,44 +58,66 @@ export default function AdminCuartos() {
     setFormTipoCuarto(item.tipoCuarto);
     setFormTipoCama(item.tipoCama);
     setFormPrecio(item.precio);
+    setFormImagen(null); // Ponemos null para no sobreescribir la imagen previa a menos que elija otra
     setIsModalOpen(true);
   };
 
-  const handleUpdateSubmit = (e) => {
+  // --- 2. Crear o Editar Habitación con FormData ---
+  const handleUpdateSubmit = async (e) => {
     e.preventDefault();
-    if (isEditMode) {
-        setCuartos(cuartos.map(c => 
-          c.idCuarto === editingItem.idCuarto 
-            ? { ...c, tipoCuarto: formTipoCuarto, tipoCama: formTipoCama, precio: parseFloat(formPrecio) }
-            : c
-        ));
-    } else {
-        const nuevoCuarto = {
-          idCuarto: Date.now(),
-          tipoCuarto: formTipoCuarto, 
-          tipoCama: formTipoCama,     
-          precio: parseFloat(formPrecio),
-          cantidad: 1, 
-          imagen: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=300'
-        };
-        setCuartos([...cuartos, nuevoCuarto]);
+
+    const formData = new FormData();
+    formData.append('tipoCuarto', formTipoCuarto);
+    formData.append('tipoCama', formTipoCama);
+    formData.append('precio', parseFloat(formPrecio));
+    formData.append('idAdmin', user?.idAdmin || 1);
+
+    if (formImagen) {
+      formData.append('imagen', formImagen); // Adjuntamos archivo de la PC
     }
+
+    try {
+      if (isEditMode) {
+        // Enviar PUT al Backend
+        const res = await fetch(`${API_URL}/${editingItem.idCuarto}`, {
+          method: 'PUT',
+          body: formData
+        });
+
+        if (res.ok) {
+          const editado = await res.json();
+          setCuartos(cuartos.map(c => c.idCuarto === editingItem.idCuarto ? editado : c));
+        }
+      } else {
+        // Enviar POST al Backend
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (res.ok) {
+          const nuevoCuartoCreado = await res.json();
+          setCuartos([...cuartos, nuevoCuartoCreado]);
+        }
+      }
+    } catch (error) {
+      console.error("Error al procesar el formulario de habitaciones:", error);
+    }
+    
     setIsModalOpen(false);
   };
 
-  const handleQuantityChange = (id, amount) => {
-    setCuartos(cuartos.map(c => {
-      if (c.idCuarto === id) {
-        const newQty = c.cantidad + amount;
-        return { ...c, cantidad: newQty < 0 ? 0 : newQty }; 
+  // --- 3. Eliminar Habitación de MySQL ---
+  const handleDelete = async (id) => {
+    if (window.confirm("¿Seguro que deseas eliminar esta habitación permanentemente de la base de datos?")) {
+      try {
+        const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          setCuartos(cuartos.filter(c => c.idCuarto !== id));
+        }
+      } catch (error) {
+        console.error("Error al borrar el cuarto:", error);
       }
-      return c;
-    }));
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("¿Seguro que deseas eliminar esta habitación?")) {
-      setCuartos(cuartos.filter(c => c.idCuarto !== id));
     }
   };
 
@@ -100,11 +144,6 @@ export default function AdminCuartos() {
                 onEdit={() => openEditModal(cuarto)} 
                 onDelete={() => handleDelete(cuarto.idCuarto)}
               />
-              <div className="room-quantity-control">
-                <button onClick={() => handleQuantityChange(cuarto.idCuarto, -1)}>−</button>
-                <span>{cuarto.cantidad}</span>
-                <button onClick={() => handleQuantityChange(cuarto.idCuarto, 1)}>+</button>
-              </div>
             </div>
           ))}
         </div>
@@ -130,7 +169,7 @@ export default function AdminCuartos() {
         </div>
       </div>
 
-      {/* --- FORMULARIO MODAL DE EDICIÓN / CREACIÓN --- */}
+      {/* --- FORMULARIO MODAL --- */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content animate-fade-in">
@@ -138,8 +177,17 @@ export default function AdminCuartos() {
             <h2 className="modal-form-title">{isEditMode ? 'Editar Cuarto' : 'Agregar Nuevo Cuarto'}</h2>
             
             <form onSubmit={handleUpdateSubmit} className="edit-form-layout">
+              {/* CAMBIADO: Carga local de archivos de la PC */}
+              <div className="form-group">
+                <label>Subir Imagen desde la Computadora</label>
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleFileChange} 
+                  className="file-input-style"
+                />
+              </div>
               
-              {/* Tipo de Cama con lista desplegable inteligente */}
               <div className="form-group">
                 <label>Tipo de Cama</label>
                 <input 
@@ -158,7 +206,6 @@ export default function AdminCuartos() {
                 </datalist>
               </div>
 
-              {/* Tipo de Habitación con lista desplegable inteligente */}
               <div className="form-group">
                 <label>Tipo de Habitación (Categoría)</label>
                 <input 
