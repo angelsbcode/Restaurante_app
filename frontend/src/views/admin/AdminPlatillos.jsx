@@ -6,12 +6,7 @@ import '../../styles/AdminPlatillos.css';
 
 export default function AdminPlatillos() {
   // Datos Dummy mapeando a la estructura de tu tabla Platillo
-  const [platillos, setPlatillos] = useState([
-    { idPlatillo: 1, nombreOrden: 'Platillo 1', tipo: 'Corte de Carne', precio: 340, imagen: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300' },
-    { idPlatillo: 2, nombreOrden: 'Platillo 2', tipo: 'Mariscos Gourmet', precio: 280, imagen: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300' },
-    { idPlatillo: 3, nombreOrden: 'Platillo 3', tipo: 'Especialidad', precio: 360, imagen: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300' }
-  ]);
-
+const [platillos, setPlatillos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -20,6 +15,21 @@ export default function AdminPlatillos() {
   const [formNombre, setFormNombre] = useState('');
   const [formPrecio, setFormPrecio] = useState('');
   const [formTipo, setFormTipo] = useState('');
+
+  const API_URL = 'http://localhost:5000/api/platillos';
+
+  useEffect(() => {
+    const cargarPlatillos = async () => {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        setPlatillos(data);
+      } catch (error) {
+        console.error("Error cargando platillos de MySQL:", error);
+      }
+    };
+    cargarPlatillos();
+  }, []);
 
   const openCreateModal = () => {
     setIsEditMode(false); // Modo Creación
@@ -40,29 +50,58 @@ export default function AdminPlatillos() {
 
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
-    if (isEditMode) {
-        setPlatillos(platillos.map(p => 
-        p.idPlatillo === editingItem.idPlatillo 
-            ? { ...p, nombreOrden: formNombre, precio: parseFloat(formPrecio), tipo: formTipo }
-            : p
-        ));
-    } else {
-        // LÓGICA DE CREACIÓN NUEVA (Simula un INSERT en tu tabla Platillo)
-        const nuevoPlatillo = {
-        idPlatillo: Date.now(), // ID temporal único
-        nombreOrden: formNombre,
-        precio: parseFloat(formPrecio),
-        tipo: formTipo,
-        imagen: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300' // Imagen por defecto
-        };
-        setPlatillos([...platillos, nuevoPlatillo]);
+
+    const payload = {
+      nombreOrden: formNombre,
+      precio: parseFloat(formPrecio),
+      tipo: formTipo,
+      imagen: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300' // Imagen mock
+    };
+
+    try {
+      if (isEditMode) {
+        // Enviar PUT al Backend
+        const res = await fetch(`${API_URL}/${editingItem.idPlatillo}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          setPlatillos(platillos.map(p => 
+            p.idPlatillo === editingItem.idPlatillo ? { ...p, ...payload } : p
+          ));
+        }
+      } else {
+        // Enviar POST al Backend
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const nuevoPlatilloCreado = await res.json();
+          setPlatillos([...platillos, nuevoPlatilloCreado]); // Agrega el registro con su ID real de MySQL
+        }
+      }
+    } catch (error) {
+      console.error("Error al procesar el formulario:", error);
     }
+    
     setIsModalOpen(false);
   };
 
-  const handleDelete = (id) => {
-    if(window.confirm("¿Seguro que deseas eliminar este platillo?")) {
-      setPlatillos(platillos.filter(p => p.idPlatillo !== id));
+  const handleDelete = async (id) => {
+    if (window.confirm("¿Seguro que deseas eliminar este platillo permanentemente de la base de datos?")) {
+      try {
+        const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          setPlatillos(platillos.filter(p => p.idPlatillo !== id));
+        }
+      } catch (error) {
+        console.error("Error al borrar el platillo:", error);
+      }
     }
   };
 
