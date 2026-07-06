@@ -77,9 +77,6 @@ export default function Login() {
               <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=500" alt="Room 3" />
             </div>
           </div>
-          <h1 className="text-2xl font-light text-neutral-800 tracking-wide font-sans">
-            Hotel Management System
-          </h1>
         </div>
 
         {/* COLUMNA CENTRAL: Formulario Principal de Login */}
