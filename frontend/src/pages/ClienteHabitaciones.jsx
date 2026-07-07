@@ -94,7 +94,7 @@ const ClienteHabitaciones = () => {
         <div className="contenedor_reservaciones">
             <header className="header_top">
                 <h1>RESERVACIONES</h1>
-                <button className="btn_cerrar" onClick={() => navigate('/menu')}>X</button>
+                <button className="btn_cerrar" onClick={() => navigate('/client')}>X</button>
             </header>
 
             <main className="contenido_principal">
@@ -158,9 +158,6 @@ const ClienteHabitaciones = () => {
                 {/* Panel lateral: Ticket */}
                 <aside className="panel_ticket">
                     <h2>Reservación #000</h2>
-                    <p className="fecha_emision">Fecha: {fechaHoy}</p>
-                    <p className="hotel_nombre">Hotel: Este hotel</p>
-
                     <div className="datos_huesped">
                         <h4>Datos de Huésped</h4>
                         <label>Nombre: [Usuario de Sesión]</label>
@@ -170,17 +167,17 @@ const ClienteHabitaciones = () => {
                     <div className="detalles_estancia">
                         <h4>Detalles de estancia</h4>
                         <div className="detalle_fechas">
-                        <div>
-                            <p className="etiqueta">Check-in</p>
-                            <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} />
-                            <input type="time" defaultValue="15:00" />
+                            <div>
+                                <p className="etiqueta">Check-in</p>
+                                <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} />
+                                <input type="time" defaultValue="15:00" />
+                            </div>
+                            <div>
+                                <p className="etiqueta">Check-out</p>
+                                <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} />
+                                <input type="time" defaultValue="12:00" />
+                            </div>
                         </div>
-                        <div>
-                            <p className="etiqueta">Check-out</p>
-                            <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} />
-                            <input type="time" defaultValue="12:00" />
-                        </div>
-                    </div>
                         <p className="duracion">Duración: {noches} Noches</p>
                     </div>
 

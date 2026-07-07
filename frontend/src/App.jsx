@@ -13,6 +13,7 @@ import AdminCuartos from './views/admin/AdminCuartos';
 import ClientMenu from './pages/ClienteMenu';
 import ClientRooms from './pages/ClienteHabitaciones';
 import ClientDishes from './pages/ClienteRestaurante';
+import ClientProfile from './pages/ClientePerfil';
 
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="/client" element={<ClientMenu />} />
             <Route path="/habitaciones" element={<ClientRooms />} />
             <Route path="/restaurante" element={<ClientDishes />} />
+            <Route path="/perfil" element={<ClientProfile />} />
             
           </Route>
 

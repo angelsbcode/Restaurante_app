@@ -38,8 +38,17 @@ const ClienteRestaurante = () => {
         });
     };
 
-    const quitarDelCarrito = (id) => {
-        setCarrito(prev => prev.map(i => i.id === id ? { ...i, cantidad: i.cantidad - 1 } : i).filter(i => i.cantidad > 0));
+    const quitarDelCarrito = (item) => {
+        setCarrito((prev) => {
+            const existe = prev.find((i) => i.id === item.id);
+            if (!existe) return prev;
+            if (existe.cantidad > 1) {
+                return prev.map((i) => 
+                    i.id === item.id ? { ...i, cantidad: i.cantidad - 1 } : i
+                );
+            }
+            return prev.filter((i) => i.id !== item.id);
+        });
     };
 
     const obtenerCantidad = (id) => carrito.find(i => i.id === id)?.cantidad || 0;
@@ -67,8 +76,8 @@ const ClienteRestaurante = () => {
                                 <span className="precio">${especialidad.precio}</span>
                                 <div className="contador">
                                     <button onClick={() => quitarDelCarrito(especialidad)}>-</button>
-                                        <span>{obtenerCantidad(especialidad.id)}</span>
-                                        <button onClick={() => agregarAlCarrito(especialidad)}>+</button>
+                                    <span>{obtenerCantidad(especialidad.id)}</span>
+                                    <button onClick={() => agregarAlCarrito(especialidad)}>+</button>
                                 </div>
                             </div>
                         </div>

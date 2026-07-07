@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.portal_layout {
+    min-height: 100vh;
+    background-color: #e6e5e0; /* Tono gris/beige claro del mockup */
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+/* Header */
+.portal_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: transparent;
+}
+
+.portal_header h1 {
+    font-size: 28px;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Times New Roman', serif; /* Para igualar el estilo clásico del título */
+}
+
+.btn_volver {
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    color: #0d4d4d;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Banner */
+.portal_banner {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.portal_banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Contenido Principal */
+.portal_contenido {
+    padding: 0 40px 40px 40px;
+    margin-top: -30px; /* Superposición de la tarjeta sobre el banner */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Tarjeta Reservación Actual */
+.tarjeta_reservacion_actual {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+}
+
+.titulo_seccion {
+    color: #3b827e;
+    font-size: 22px;
+    font-style: italic;
+    margin: 0 0 20px 0;
+}
+
+.reservacion_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    gap: 30px;
+}
+
+.bloque_datos h4, .columna_compra h4 {
+    font-size: 14px;
+    margin: 0 0 8px 0;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.bloque_datos p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.separador {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 15px 0;
+}
+
+.separador_solido {
+    border: 0;
+    border-top: 2px solid #333;
+    margin: 15px 0;
+}
+
+.lista_compra {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item_compra {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #444;
+}
+
+.total_compra {
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+    color: #000;
+}
+
+.columna_imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    max-height: 180px;
+}
+
+/* Navegación y Acciones */
+.navegacion_acciones {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.grid_tarjetas {
+    display: flex;
+    gap: 20px;
+}
+
+.tarjeta_accion {
+    background: #ffffff;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    width: 200px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.tarjeta_accion:hover {
+    transform: translateY(-3px);
+}
+
+.tarjeta_accion.activa {
+    border-color: #3b827e;
+}
+
+.img_accion {
+    flex: 1;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Placeholders para las imágenes de los botones */
+.img_res { background-image: url('https://via.placeholder.com/180x100/333/fff?text=Cama'); }
+.img_ord { background-image: url('https://via.placeholder.com/180x100/555/fff?text=Restaurante'); }
+.img_perfil { background-image: url('https://via.placeholder.com/180x100/f0a500/fff?text=Usuario'); }
+
+.tarjeta_accion span {
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+}
+
+/* Controles Derecha (Botón Ayuda y Logos) */
+.controles_derecha {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.iconos_decorativos {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+.btn_ayuda {
+    background: #c6e6e4;
+    color: #0d4d4d;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn_ayuda:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Área Dinámica (Tablas y Formulario) */
+.vista_desplegada {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.vista_desplegada h3 {
+    margin: 0 0 20px 0;
+    color: #3b827e;
+}
+
+/* Tablas */
+.tabla_historial {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla_historial th, .tabla_historial td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.tabla_historial th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Formulario Perfil */
+.vista_perfil {
+    max-width: 500px;
+}
+
+.formulario_perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form_group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form_group input[type="text"] {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.file_group {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.foto_preview {
+    width: 80px;
+    height: 80px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    background-image: url('https://via.placeholder.com/80/f0a500/fff?text=U');
+    background-size: cover;
+}
+
+.btn_secundario {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.btn_primario_guardar {
+    background: #0d4d4d;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
