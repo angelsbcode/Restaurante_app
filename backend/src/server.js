@@ -1,19 +1,23 @@
 // src/server.js
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 require('dotenv').config();
 
 // Importamos la conexión a la base de datos que acabamos de meter en config
 const db = require('./config/db'); 
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Tomará el del .env, si no, el 5000
+const PORT = process.env.PORT || 3000; // Tomará el del .env, si no, el 5000
 
-const platilloRoutes = require('./routes/platilloRoutes');
+const productoRoutes = require('./routes/productoRoutes');
+const habitacionRoutes = require('./routes/habitacionRoutes');
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/platillos', platilloRoutes);
+app.use('/api/platillos', productoRoutes);
+app.use('/api/habitaciones', habitacionRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // RUTA DE PRUEBA: Para comprobar que la base de datos responde
 app.get('/api/test-db', async (req, res) => {
