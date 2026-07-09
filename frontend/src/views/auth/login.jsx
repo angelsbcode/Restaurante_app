@@ -13,51 +13,90 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Estados para el Modal de Registro (Campos basados en la tabla Cliente)
+  // Estados para el Modal de Registro 
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [regName, setRegName] = useState('');
   const [regSurname, setRegSurname] = useState('');
   const [regEmail, setRegEmail] = useState('');
+  const [regPassword, setRegPassword] = useState('');   // <-- ¡FALTABA ESTE ESTADO CRUCIAL!
+  const [regTelefono, setRegTelefono] = useState('');   // <-- ¡FALTABA ESTE ESTADO CRUCIAL!
   const [regDireccion, setRegDireccion] = useState('');
 
-  // Manejador del Inicio de Sesión
+  // --- 1. Manejador del Inicio de Sesión Real ---
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("¡Formulario atrapado sin recargar!");
-    console.log("Email ingresado:", email);
 
-    // NOTA: Por ahora simulamos la respuesta del backend (Node.js + MySQL)
-    // Cuando conectes tu API, aquí harás el fetch() correspondiente.
-    
-    if (email === 'admin@hotel.com') {
-      // Simulamos que es un Administrador
-      const mockUserData = { id: 1, email: email, role: 'admin' };
-      const mockToken = 'token-admin-12345';
-      
-      login(mockUserData, mockToken);
-      navigate('/admin'); // Redirige al menú de administración
-    } else {
-      // Simulamos que cualquier otro correo es un Cliente
-      const mockUserData = { id: 10, email: email, role: 'client' };
-      const mockToken = 'token-cliente-54321';
-      
-      login(mockUserData, mockToken);
-      navigate('/client'); // Redirige al portal del cliente
+    try {
+      const res = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: email, 
+          password: password 
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Guarda los datos reales devueltos por MySQL en tu AuthContext global
+        login(data.user, data.token);
+
+        // Redirección estricta basada en el rol devuelto por la BD
+        if (data.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/client');
+        }
+      } else {
+        // MySQL invalida las credenciales y frena el acceso aquí
+        alert(data.message || "Error al iniciar sesión");
+      }
+    } catch (error) {
+      console.error("Error en la conexión con el servidor:", error);
+      alert("No se pudo conectar con el servidor. ¿El backend está encendido en el puerto 3000?");
     }
   };
 
-  // Manejador del Registro de Clientes
-  const handleRegisterSubmit = (e) => {
+  // --- 2. Manejador del Registro de Clientes Real ---
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    // Aquí irá tu petición POST hacia Node.js para insertar en la tabla 'Cliente'
-    alert(`Cliente registrado temporalmente:\nNombre: ${regName} ${regSurname}\nEmail: ${regEmail}`);
-    setIsRegisterOpen(false);
-    
-    // Limpiar campos
-    setRegName('');
-    setRegSurname('');
-    setRegEmail('');
-    setRegDireccion('');
+
+    const nuevoCliente = {
+      nombre: `${regName} ${regSurname}`.trim(),
+      correo: regEmail,
+      contrasena: regPassword, 
+      telefono: regTelefono, 
+      direccion: regDireccion
+    };
+
+    try {
+      const res = await fetch('http://localhost:3000/api/clientes', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nuevoCliente)
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(`¡Registro exitoso! Bienvenido, ${nuevoCliente.nombre}.\nYa puedes iniciar sesión.`);
+        setIsRegisterOpen(false);
+        
+        // Limpiar campos por completo
+        setRegName('');
+        setRegSurname('');
+        setRegEmail('');
+        setRegPassword('');
+        setRegTelefono('');
+        setRegDireccion('');
+      } else {
+        alert(data.message || "Hubo un problema al registrar tu cuenta.");
+      }
+    } catch (error) {
+      console.error("Error al registrar cliente:", error);
+      alert("Error de red al intentar registrar al cliente.");
+    }
   };
 
   return (
@@ -89,14 +128,13 @@ export default function Login() {
             <h1 className="system-title">Hotel Management System</h1>
           </div>
 
-          {/* Tarjeta Blanca de Credenciales */}
           <div className="login-card">
             <form onSubmit={handleLoginSubmit}>
               <div className="form-group">
                 <label>Email</label>
                 <input
                   type="email"
-                  placeholder="Value"
+                  placeholder="ejemplo@correo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -107,7 +145,7 @@ export default function Login() {
                 <label>Password</label>
                 <input
                   type="password"
-                  placeholder="Value"
+                  placeholder="******"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -127,7 +165,7 @@ export default function Login() {
                 onClick={() => setIsRegisterOpen(true)} 
                 className="footer-link-right"
               >
-                Sign in
+                Registrarse como Cliente
               </button>
             </div>
           </div>
@@ -155,60 +193,43 @@ export default function Login() {
         <div className="modal-overlay">
           <div className="modal-content animate-fade-in">
             
-            <button 
-              onClick={() => setIsRegisterOpen(false)}
-              className="btn-close-modal"
-            >
-              ✕
-            </button>
+            <button onClick={() => setIsRegisterOpen(false)} className="btn-close-modal">✕</button>
+
+            <h2 style={{marginBottom: '20px', color: '#23747d'}}>Registrar Nueva Cuenta</h2>
 
             <form onSubmit={handleRegisterSubmit}>
               <div className="form-group">
-                <label>Name</label>
-                <input
-                  type="text"
-                  placeholder="Value"
-                  value={regName}
-                  onChange={(e) => setRegName(e.target.value)}
-                  required
-                />
+                <label>Nombre(s)</label>
+                <input type="text" placeholder="Value" value={regName} onChange={(e) => setRegName(e.target.value)} required />
               </div>
 
               <div className="form-group">
-                <label>Surname</label>
-                <input
-                  type="text"
-                  placeholder="Value"
-                  value={regSurname}
-                  onChange={(e) => setRegSurname(e.target.value)}
-                  required
-                />
+                <label>Apellidos</label>
+                <input type="text" placeholder="Value" value={regSurname} onChange={(e) => setRegSurname(e.target.value)} required />
               </div>
 
               <div className="form-group">
                 <label>Email</label>
-                <input
-                  type="email"
-                  placeholder="Value"
-                  value={regEmail}
-                  onChange={(e) => setRegEmail(e.target.value)}
-                  required
-                />
+                <input type="email" placeholder="Value" value={regEmail} onChange={(e) => setRegEmail(e.target.value)} required />
+              </div>
+
+              <div className="form-group">
+                <label>Contraseña</label>
+                <input type="password" placeholder="Mínimo 6 caracteres" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} required />
+              </div>
+
+              <div className="form-group">
+                <label>Teléfono</label>
+                <input type="text" placeholder="10 dígitos" value={regTelefono} onChange={(e) => setRegTelefono(e.target.value)} />
               </div>
 
               <div className="form-group">
                 <label>Dirección</label>
-                <textarea
-                  placeholder="Value"
-                  value={regDireccion}
-                  onChange={(e) => setRegDireccion(e.target.value)}
-                  rows="3"
-                  required
-                />
+                <textarea placeholder="Dirección completa" value={regDireccion} onChange={(e) => setRegDireccion(e.target.value)} rows="2" required />
               </div>
 
               <button type="submit" className="btn-submit">
-                Submit
+                Crear Cuenta
               </button>
             </form>
           </div>
